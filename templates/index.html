@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <div>
+            <h1 class="text-3xl font-bold">Welcome To Simple Blog Generator</h1>
+        </div>
+        <div>
+            <a href="{% url 'save_blog' %}" class="text-white hover:underline p-2">Create Blog</a>
+            <a href="{% url 'saved_blog' %}" class="text-white hover:underline p-2">Saved Blog</a>
+            <a href="{% url 'login_view' %}" class="text-white hover:underline p-2">
+                Welcome {{ request.session.user_email }}
+            </a>
+            <a href="{% url 'logout_view' %}" class="text-white hover:underline">Logout</a>
+        </div>
+    </nav>
+
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded shadow mt-10">
+        <h1 class="text-2xl font-bold mb-6">Create Blog</h1>
+        <form action="{% url 'save_blog' %}" method="post">
+            {% csrf_token %} 
+            <!-- {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %} -->
+            <div class="mb-4">
+                <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title</label>
+                <input type="text" id="title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content</label>
+                <textarea id="content" name="content" rows="10" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

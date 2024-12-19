@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <div>
+            <h1 class="text-3xl font-bold">Welcome To Simple Blog Generator</h1>
+        </div>
+        <div>
+            <a href="{% url 'save_blog' %}" class="text-white hover:underline p-2">create Blog</a>
+            <a href="{% url 'saved_blog' %}" class="text-white hover:underline p-2">Saved Blog</a>
+            <a href="{% url 'login_view' %}" class="text-white hover:underline p-2">
+                Welcome {{ request.session.user_email }}
+            </a>
+            <a href="{% url 'logout_view' %}" class="text-white hover:underline">Logout</a>
+        </div>
+    </nav>
+
+    <div class="flex-grow container mx-auto p-6">
+        <div class="bg-white p-8 rounded shadow">
+            <h2 class="text-2xl font-bold mb-6">Your Saved Blogs</h2>
+
+            {% if res %}
+                <div class="space-y-6 mb-2">
+                    {% for blog in res %}
+                        <div class="p-6 bg-gray-100 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold mb-2">{{ blog.title }}</h3>
+                            <p class="text-gray-700 mb-4">{{ blog.content }}</p>
+                            
+                <div class="flex space-x-4">
+                                <form action="{% url 'edit_blog' blog.id %}" method="GET">
+                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                        Edit
+                                    </button>
+                                </form>
+                                <form action="{% url 'delete_blog' blog.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                       
+                        
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-700">No blogs found.</p>
+            {% endif %}
+        </div>
+    </div>
+  
+</body>
+</html>
